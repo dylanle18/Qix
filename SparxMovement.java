@@ -32,41 +32,43 @@ public class SparxMovement {
 
     // Moves sparc if possible and rotates accordingly if not.
     public void move() {
-        if (inGrid(sparc.getTile().getRow() + velX, sparc.getTile().getCol() + velY)) {
-            this.step();
-        } else {
-            if (this.sparc.clockwise) {
-                if (velX == 0 && velY == -1) {
-                    velX = -1;
-                    velY = 0;
-                } else if (velX == 0 && velY == 1) {
-                    velX = 1;
-                    velY = 0;
-                } else if (velX == -1 && velY == 0) {
-                    velX = 0;
-                    velY = 1;
-                } else if (velX == 1 && velY == 0) {
-                    velX = 0;
-                    velY = -1;
-                }
-            } else {
-                if (velX == 0 && velY == -1) {
-                    velX = 1;
-                    velY = 0;
-                } else if (velX == 0 && velY == 1) {
-                    velX = -1;
-                    velY = 0;
-                } else if (velX == -1 && velY == 0) {
-                    velX = 0;
-                    velY = -1;
-                } else if (velX == 1 && velY == 0) {
-                    velX = 0;
-                    velY = 1;
-                }
-            }
-            this.step();
+        if (!inGrid(sparc.getTile().getRow() + velX, sparc.getTile().getCol() + velY)) {
+            updateVel();
         }
+        this.step();
         canMove = false;
+    }
+
+    private void updateVel() {
+        if (this.sparc.clockwise) {
+            if (velX == 0 && velY == -1) {
+                velX = -1;
+                velY = 0;
+            } else if (velX == 0 && velY == 1) {
+                velX = 1;
+                velY = 0;
+            } else if (velX == -1 && velY == 0) {
+                velX = 0;
+                velY = 1;
+            } else if (velX == 1 && velY == 0) {
+                velX = 0;
+                velY = -1;
+            }
+        } else {
+            if (velX == 0 && velY == -1) {
+                velX = 1;
+                velY = 0;
+            } else if (velX == 0 && velY == 1) {
+                velX = -1;
+                velY = 0;
+            } else if (velX == -1 && velY == 0) {
+                velX = 0;
+                velY = -1;
+            } else if (velX == 1 && velY == 0) {
+                velX = 0;
+                velY = 1;
+            }
+        }
     }
 
     private void step() {
