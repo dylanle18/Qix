@@ -19,6 +19,13 @@ public class Game extends Canvas implements Runnable {
     private TileHandler tileHandler;
     private Movement movement;
 
+    //Nabil
+    private Sparx sparc1;
+    private Sparx sparc2;
+    private SparxMovement sparcMovement1;
+    private SparxMovement sparcMovement2;
+    //
+
     public Game() {
         handler = new Handler();
         grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
@@ -27,6 +34,16 @@ public class Game extends Canvas implements Runnable {
         playerInput = new PlayerInput(player);
         tileHandler = new TileHandler(player);
         movement = new Movement(player, tileHandler);
+
+        //Nabil
+        sparc1 = new Sparx(ID.SPARX,Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), true);
+        sparcMovement1 = new SparxMovement(sparc1, 5);
+        handler.addObject(sparc1);
+
+        sparc2 = new Sparx(ID.SPARX,Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), false);
+        sparcMovement2 = new SparxMovement(sparc2, 1);
+        handler.addObject(sparc2);
+        //
         
         this.addKeyListener(playerInput);
         new Window(WIDTH, HEIGHT, "GAME", this);
@@ -39,6 +56,8 @@ public class Game extends Canvas implements Runnable {
         handler.tick();
         tileHandler.tick();
         movement.tick();
+        sparcMovement1.tick();
+        sparcMovement2.tick();
     }
 
     private void render() {

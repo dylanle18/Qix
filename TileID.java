@@ -4,7 +4,8 @@ public enum TileID {
 
     EMPTY(Color.darkGray),
     PATH(Color.white),
-    PUSH(Color.gray);
+    PUSH(Color.gray),
+    CLAIM(Color.blue);
 
     private Color color;
 

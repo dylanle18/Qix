@@ -79,6 +79,13 @@ public class Movement {
 
     // checks if the new tile is beside an existing push
     private boolean adjacentPush(Tile curTile, Tile nextTile) {
+        // Boundry exmaple for when player is moving up
+        // P = Player, t = boundry tiles
+        //
+        //     t1 t2 t3
+        //     t4    t5
+        //        P
+        //
         int curR = curTile.getRow();
         int curC = curTile.getCol();
         int nextR = nextTile.getRow();
@@ -87,14 +94,16 @@ public class Movement {
         int r = nextR - curR;
         int c = nextC - curC;
 
-        Tile t1, t2, t3;
+        Tile t1, t2, t3, t4, t5;
 
         if (r == -1 || r == 1) {
             t1 = Grid.getTile(nextR + r, nextC - 1);
             t2 = Grid.getTile(nextR + r, nextC);
             t3 = Grid.getTile(nextR + r, nextC + 1);
+            t4 = Grid.getTile(nextR, nextC - 1);
+            t5 = Grid.getTile(nextR, nextC + 1);
 
-            if (isPush(t1) || isPush(t2) || isPush(t3)) {
+            if (isPush(t1) || isPush(t2) || isPush(t3) || isPush(t4) || isPush(t5)) {
                 return true;
             }
         }
@@ -103,8 +112,10 @@ public class Movement {
             t1 = Grid.getTile(nextR - 1, nextC + c);
             t2 = Grid.getTile(nextR, nextC + c);
             t3 = Grid.getTile(nextR + 1, nextC + c);
+            t4 = Grid.getTile(nextR - 1, nextC);
+            t5 = Grid.getTile(nextR + 1, nextC);
 
-            if (isPush(t1) || isPush(t2) || isPush(t3)) {
+            if (isPush(t1) || isPush(t2) || isPush(t3) || isPush(t4) || isPush(t5)) {
                 return true;
             }
         }

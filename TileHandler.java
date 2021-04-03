@@ -35,4 +35,22 @@ public class TileHandler {
         return tile.getTileID() == TileID.PUSH;
     }
 
+    public void claim(Tile tile) {
+        tile.setTileID(TileID.CLAIM);
+
+        int row = tile.getRow();
+        int col = tile.getCol();
+        if (Grid.getTile(row + 1, col).getTileID() == TileID.EMPTY) {
+            claim(Grid.getTile(row + 1, col));
+        }
+        if (Grid.getTile(row - 1, col).getTileID() == TileID.EMPTY) {
+            claim(Grid.getTile(row - 1, col));
+        }
+        if (Grid.getTile(row, col + 1).getTileID() == TileID.EMPTY) {
+            claim(Grid.getTile(row, col + 1));
+        }
+        if (Grid.getTile(row, col - 1).getTileID() == TileID.EMPTY) {
+            claim(Grid.getTile(row, col - 1));
+        }
+    }
 }

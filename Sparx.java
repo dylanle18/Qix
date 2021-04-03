@@ -3,7 +3,7 @@ import java.awt.Graphics;
 
 public class Sparx extends GameObject {
 
-    private Boolean clockwise;
+    public Boolean clockwise;
 
     public Sparx(ID id, Tile tile, Boolean clockwise) {
         super(id, tile);
@@ -18,5 +18,5 @@ public class Sparx extends GameObject {
         g.setColor(Color.magenta);
         g.fillRect(tile.getX(), tile.getY(), Game.TILESIZE, Game.TILESIZE);
     }
-    
+
 }
