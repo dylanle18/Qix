@@ -19,7 +19,7 @@ public class Game extends Canvas implements Runnable {
     private TileHandler tileHandler;
     private Movement movement;
 
-    //Nabil
+    // Nabil
     private Sparx sparc1;
     private Sparx sparc2;
     private SparxMovement sparcMovement1;
@@ -30,24 +30,30 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
         grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
         player = new Player(ID.PLAYER, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2));
-        
+
         playerInput = new PlayerInput(player);
         tileHandler = new TileHandler(player);
         movement = new Movement(player, tileHandler);
 
-        //Nabil
-        sparc1 = new Sparx(ID.SPARX,Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), true);
+        // Testing
+
+        // LinkedPath path = new LinkedPath();
+        // path.display();
+        //
+
+        // Nabil
+        sparc1 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), true);
         sparcMovement1 = new SparxMovement(sparc1, 5);
         handler.addObject(sparc1);
 
-        sparc2 = new Sparx(ID.SPARX,Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), false);
+        sparc2 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), false);
         sparcMovement2 = new SparxMovement(sparc2, 1);
         handler.addObject(sparc2);
         //
-        
+
         this.addKeyListener(playerInput);
         new Window(WIDTH, HEIGHT, "GAME", this);
-        
+
         handler.addObject(player);
     }
 
