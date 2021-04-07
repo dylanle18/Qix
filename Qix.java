@@ -7,6 +7,7 @@ public class Qix extends GameObject {
 
     public Qix(ID id, Tile tile) {
         super(id, tile);
+        tile.setHasQix(true);
         velX = 0;
         velY = 0;
     }

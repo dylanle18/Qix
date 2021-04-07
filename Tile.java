@@ -4,7 +4,7 @@ public class Tile {
 
     private int x, y, size, row, col;
     private TileID tileID;
-    private boolean hasQix;
+    private boolean hasQix = false;
 
     public Tile(int x, int y, int size, int row, int col, TileID tileID) {
         this.x = x;
