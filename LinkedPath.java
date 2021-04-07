@@ -11,15 +11,6 @@ public class LinkedPath {
         this.mapGrid();
     }
 
-    public LinkedPath(boolean empty) {
-        this.start = null;
-        this.end = null;
-        this.size = 0;
-        if (!empty) {
-            this.mapGrid();
-        }
-    }
-
     private void mapGrid() {
         for (int i = 0; i < Game.GRIDSIZE; i++) {
             Tile tile = Grid.getTile(0, i);
@@ -94,41 +85,33 @@ public class LinkedPath {
         return this.start;
     }
 
-    public PathNode getNode(Tile tile) {
+    public PathNode getNode(Tile tile, boolean forwardsSearch) {
         if (tile == this.start.tile) {
             return this.start;
         } else if (tile == this.end.tile) {
             return this.end;
         }
         PathNode curretNode = this.start;
-        for (int i = 0; i < this.size; ++i) {
-            if (curretNode.tile != tile && curretNode.next != null) {
-                curretNode = curretNode.next;
-            } else {
-                return curretNode;
-            }
-        }
-        if (tile == this.end.tile) {
-            return null;
-        } else {
-            return curretNode;
-        }
-    }
 
-    public PathNode getNodeBackwards(Tile tile) {
-        if (tile == this.start.tile) {
-            return this.start;
-        } else if (tile == this.end.tile) {
-            return this.end;
-        }
-        PathNode curretNode = this.start;
-        for (int i = 0; i < this.size; ++i) {
-            if (curretNode.tile != tile && curretNode.prev != null) {
-                curretNode = curretNode.prev;
-            } else {
-                return curretNode;
+        if (forwardsSearch) {
+            for (int i = 0; i < this.size; ++i) {
+                if (curretNode.tile != tile && curretNode.next != null) {
+                    curretNode = curretNode.next;
+                } else {
+                    return curretNode;
+                }
+            }
+        } else {
+
+            for (int i = 0; i < this.size; ++i) {
+                if (curretNode.tile != tile && curretNode.prev != null) {
+                    curretNode = curretNode.prev;
+                } else {
+                    return curretNode;
+                }
             }
         }
+
         if (tile == this.end.tile) {
             return null;
         } else {

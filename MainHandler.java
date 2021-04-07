@@ -27,7 +27,7 @@ public class MainHandler {
         // SPARX
         Sparx sparx = new Sparx(ID.SPARX, mainPath.getStart().tile, true);
         objectHandler.addObject(sparx);
-        movementHandler.addMovement(new SparxMovement(sparx, mainPath.getStart(), 5));
+        movementHandler.addMovement(new SparxMovement(sparx, mainPath.getStart(), 1));
     }
 
     public void tick() {

@@ -32,9 +32,7 @@ public class PlayerMovement extends Movement {
         Tile tile = player.getTile();
         int newRow = tile.getRow() + player.getVelY();
         int newCol = tile.getCol() + player.getVelX();
-        PathNode currentNode = mainPath.getNode(player.getTile());
-        // System.out.printf("|%d,%d", currentNode.tile.getRow(), currentNode.tile.getCol());
-        // System.out.printf("|%d,%d\n", mainPath.getNodeBackwards(player.getTile()).tile.getRow(),mainPath.getNodeBackwards(player.getTile()).tile.getCol());
+        PathNode currentNode = mainPath.getNode(player.getTile(), true);
 
         if (inGrid(newRow, newCol)) {
             Tile newTile = Grid.getTile(newRow, newCol);
@@ -47,13 +45,15 @@ public class PlayerMovement extends Movement {
                 // makes sure the player cant walk backwards or go beside an existing push
                 if (!isPush(newTile) && !adjacentPush(tile, newTile)) {
                     currentNode.next = new PathNode(newTile, currentNode, null);
+
                     player.setTile(newTile);
                 }
             }
 
             if (!isPath(tile) && isPath(newTile)) {
-                currentNode.next = mainPath.getNodeBackwards(player.getTile());
-                // mainPath.display();
+                PathNode lastNode = mainPath.getNode(player.getTile(), false);
+                currentNode.next = lastNode;
+                lastNode.prev = currentNode;
                 tileHandler.scan();
             }
         }
