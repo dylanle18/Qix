@@ -1,15 +1,16 @@
-public class SparxMovement {
+public class SparxMovement extends Movement {
 
-    private Sparx sparc;
+    private Sparx sparx;
+    private int drag;
+    
     private int tickCounter = 0;
     private boolean canMove = false;
     private int velX = 0, velY;
-    private int speed;
 
-    public SparxMovement(Sparx sparc, int speed) {
-        this.sparc = sparc;
-        this.speed = speed;
-        if (this.sparc.clockwise) {
+    public SparxMovement(Sparx sparx, int drag) {
+        this.sparx = sparx;
+        this.drag = drag;
+        if (this.sparx.clockwise) {
             velY = -1;
         } else {
             velY = 1;
@@ -17,11 +18,11 @@ public class SparxMovement {
     }
 
     public void tick() {
-        // handles player speed
+        // handles sparx speed
         if (!canMove) {
             tickCounter++;
         }
-        if (tickCounter == speed) {
+        if (tickCounter == drag) {
             canMove = true;
             tickCounter = 0;
         }
@@ -30,9 +31,9 @@ public class SparxMovement {
         }
     }
 
-    // Moves sparc if possible and rotates accordingly if not.
+    // Moves sparx if possible and rotates accordingly if not.
     public void move() {
-        if (!inGrid(sparc.getTile().getRow() + velX, sparc.getTile().getCol() + velY)) {
+        if (!inGrid(sparx.getTile().getRow() + velX, sparx.getTile().getCol() + velY)) {
             updateVel();
         }
         this.step();
@@ -40,7 +41,7 @@ public class SparxMovement {
     }
 
     private void updateVel() {
-        if (this.sparc.clockwise) {
+        if (this.sparx.clockwise) {
             if (velX == 0 && velY == -1) {
                 velX = -1;
                 velY = 0;
@@ -72,8 +73,8 @@ public class SparxMovement {
     }
 
     private void step() {
-        Tile newTile = Grid.getTile(sparc.getTile().getRow() + velX, sparc.getTile().getCol() + velY);
-        sparc.setTile(newTile);
+        Tile newTile = Grid.getTile(sparx.getTile().getRow() + velX, sparx.getTile().getCol() + velY);
+        sparx.setTile(newTile);
     }
 
     private boolean inGrid(int row, int col) {
