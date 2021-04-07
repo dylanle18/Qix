@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.awt.Graphics;
 
-public class Handler {
+public class ObjectHandler {
 
     private LinkedList<GameObject> object = new LinkedList<GameObject>();
 

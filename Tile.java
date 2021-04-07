@@ -4,6 +4,7 @@ public class Tile {
 
     private int x, y, size, row, col;
     private TileID tileID;
+    private boolean hasQix;
 
     public Tile(int x, int y, int size, int row, int col, TileID tileID) {
         this.x = x;
@@ -17,6 +18,14 @@ public class Tile {
     public void render(Graphics g) {
         g.setColor(tileID.getColor());
         g.fillRect(x, y, size, size);
+    }
+
+    public boolean getHasQix() {
+        return hasQix;
+    }
+
+    public void setHasQix(boolean hasQix) {
+        this.hasQix = hasQix;
     }
 
     public int getX() {
