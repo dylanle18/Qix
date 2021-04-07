@@ -18,7 +18,7 @@ public class MainHandler {
         //QIX
         Qix qix = new Qix(ID.QIX, Grid.getTile(Game.GRIDSIZE / 2, Game.GRIDSIZE / 2));
         objectHandler.addObject(qix);
-        movementHandler.addMovement(new QixMovement(qix, 4));
+        movementHandler.addMovement(new QixMovement(qix, 2));
     }
 
     public void tick() {
