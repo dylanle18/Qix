@@ -2,13 +2,16 @@ public class PlayerMovement extends Movement {
 
     private Player player;
     private TileHandler tileHandler;
-    
+
     private int tickCounter = 0;
     private boolean canMove = false;
 
-    public PlayerMovement(Player player, TileHandler tileHandler) {
+    public LinkedPath mainPath;
+
+    public PlayerMovement(Player player, TileHandler tileHandler, LinkedPath mainPath) {
         this.player = player;
         this.tileHandler = tileHandler;
+        this.mainPath = mainPath;
     }
 
     public void tick() {
@@ -29,6 +32,9 @@ public class PlayerMovement extends Movement {
         Tile tile = player.getTile();
         int newRow = tile.getRow() + player.getVelY();
         int newCol = tile.getCol() + player.getVelX();
+        PathNode currentNode = mainPath.getNode(player.getTile());
+        // System.out.printf("|%d,%d", currentNode.tile.getRow(), currentNode.tile.getCol());
+        // System.out.printf("|%d,%d\n", mainPath.getNodeBackwards(player.getTile()).tile.getRow(),mainPath.getNodeBackwards(player.getTile()).tile.getCol());
 
         if (inGrid(newRow, newCol)) {
             Tile newTile = Grid.getTile(newRow, newCol);
@@ -36,15 +42,18 @@ public class PlayerMovement extends Movement {
             // if the player is moving to a new path tile
             if (isPath(newTile)) {
                 player.setTile(newTile);
-            // if the player is pressing space or currently pushing
+                // if the player is pressing space or currently pushing
             } else if (pressingPush() && !isClaim(newTile) || pushing() && !isClaim(newTile)) {
                 // makes sure the player cant walk backwards or go beside an existing push
                 if (!isPush(newTile) && !adjacentPush(tile, newTile)) {
+                    currentNode.next = new PathNode(newTile, currentNode, null);
                     player.setTile(newTile);
                 }
             }
-            
+
             if (!isPath(tile) && isPath(newTile)) {
+                currentNode.next = mainPath.getNodeBackwards(player.getTile());
+                // mainPath.display();
                 tileHandler.scan();
             }
         }
@@ -87,9 +96,9 @@ public class PlayerMovement extends Movement {
         // Boundry exmaple for when player is moving up
         // P = Player, t = boundry tiles
         //
-        //     t1 t2 t3
-        //     t4    t5
-        //        P
+        // t1 t2 t3
+        // t4 t5
+        // P
         //
         int curR = curTile.getRow();
         int curC = curTile.getCol();
