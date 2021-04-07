@@ -26,6 +26,10 @@ public class Game extends Canvas implements Runnable {
     private SparxMovement sparcMovement2;
     //
 
+    // Jon
+    public LinkedPath path;
+    //
+
     public Game() {
         handler = new Handler();
         grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
@@ -37,18 +41,27 @@ public class Game extends Canvas implements Runnable {
 
         // Testing
 
-        // LinkedPath path = new LinkedPath();
+        path = new LinkedPath();
+        sparc1 = new Sparx(ID.SPARX, path.getStart().tile, true);
+        sparcMovement1 = new SparxMovement(sparc1, path.getStart(), 5);
+        handler.addObject(sparc1);
+
+        sparc2 = new Sparx(ID.SPARX, path.getStart().tile, true);
+        sparcMovement2 = new SparxMovement(sparc2, path.getStart(), 2);
+        handler.addObject(sparc2);
+
         // path.display();
         //
 
         // Nabil
-        sparc1 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), true);
-        sparcMovement1 = new SparxMovement(sparc1, 5);
-        handler.addObject(sparc1);
+        // sparc1 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), true);
+        // sparcMovement1 = new SparxMovement(sparc1, 5);
+        // handler.addObject(sparc1);
 
-        sparc2 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), false);
-        sparcMovement2 = new SparxMovement(sparc2, 1);
-        handler.addObject(sparc2);
+        // sparc2 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2),
+        // false);
+        // sparcMovement2 = new SparxMovement(sparc2, 1);
+        // handler.addObject(sparc2);
         //
 
         this.addKeyListener(playerInput);

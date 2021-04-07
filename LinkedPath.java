@@ -1,11 +1,13 @@
 public class LinkedPath {
     private PathNode start;
     private PathNode end;
+    public PathNode head;
     public int size;
 
     public LinkedPath() {
         this.start = null;
         this.end = null;
+        this.head = null;
         this.size = 0;
 
         this.mapGrid();
@@ -39,6 +41,7 @@ public class LinkedPath {
             node.setNext(node);
             start = node;
             end = node;
+            head = node;
         } else {
             node.setPrev(end);
             end.setNext(node);
@@ -79,5 +82,9 @@ public class LinkedPath {
             }
             System.out.println("\n");
         }
+    }
+
+    public PathNode getStart() {
+        return this.start;
     }
 }
