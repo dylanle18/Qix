@@ -1,13 +1,11 @@
 public class LinkedPath {
     private PathNode start;
     private PathNode end;
-    public PathNode head;
     public int size;
 
     public LinkedPath() {
         this.start = null;
         this.end = null;
-        this.head = null;
         this.size = 0;
 
         this.mapGrid();
@@ -41,7 +39,6 @@ public class LinkedPath {
             node.setNext(node);
             start = node;
             end = node;
-            head = node;
         } else {
             node.setPrev(end);
             end.setNext(node);
@@ -86,5 +83,39 @@ public class LinkedPath {
 
     public PathNode getStart() {
         return this.start;
+    }
+
+    public PathNode getNode(Tile tile, boolean forwardsSearch) {
+        if (tile == this.start.tile) {
+            return this.start;
+        } else if (tile == this.end.tile) {
+            return this.end;
+        }
+        PathNode curretNode = this.start;
+
+        if (forwardsSearch) {
+            for (int i = 0; i < this.size; ++i) {
+                if (curretNode.tile != tile && curretNode.next != null) {
+                    curretNode = curretNode.next;
+                } else {
+                    return curretNode;
+                }
+            }
+        } else {
+
+            for (int i = 0; i < this.size; ++i) {
+                if (curretNode.tile != tile && curretNode.prev != null) {
+                    curretNode = curretNode.prev;
+                } else {
+                    return curretNode;
+                }
+            }
+        }
+
+        if (tile == this.end.tile) {
+            return null;
+        } else {
+            return curretNode;
+        }
     }
 }

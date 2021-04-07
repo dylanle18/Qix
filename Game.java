@@ -11,72 +11,27 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
 
-    private Handler handler;
+    private MainHandler mainHandler;
+
     private Grid grid;
     private Player player;
 
     private PlayerInput playerInput;
-    private TileHandler tileHandler;
-    private Movement movement;
-
-    // Nabil
-    private Sparx sparc1;
-    private Sparx sparc2;
-    private SparxMovement sparcMovement1;
-    private SparxMovement sparcMovement2;
-    //
-
-    // Jon
-    public LinkedPath path;
-    //
 
     public Game() {
-        handler = new Handler();
         grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
         player = new Player(ID.PLAYER, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2));
 
+        mainHandler = new MainHandler(player);
         playerInput = new PlayerInput(player);
-        tileHandler = new TileHandler(player);
-        movement = new Movement(player, tileHandler);
-
-        // Testing
-
-        path = new LinkedPath();
-        sparc1 = new Sparx(ID.SPARX, path.getStart().tile, true);
-        sparcMovement1 = new SparxMovement(sparc1, path.getStart(), 5);
-        handler.addObject(sparc1);
-
-        sparc2 = new Sparx(ID.SPARX, path.getStart().tile, true);
-        sparcMovement2 = new SparxMovement(sparc2, path.getStart(), 2);
-        handler.addObject(sparc2);
-
-        // path.display();
-        //
-
-        // Nabil
-        // sparc1 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2), true);
-        // sparcMovement1 = new SparxMovement(sparc1, 5);
-        // handler.addObject(sparc1);
-
-        // sparc2 = new Sparx(ID.SPARX, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2),
-        // false);
-        // sparcMovement2 = new SparxMovement(sparc2, 1);
-        // handler.addObject(sparc2);
-        //
 
         this.addKeyListener(playerInput);
         new Window(WIDTH, HEIGHT, "GAME", this);
-
-        handler.addObject(player);
     }
 
     private void tick() {
+        mainHandler.tick();
         playerInput.tick();
-        handler.tick();
-        tileHandler.tick();
-        movement.tick();
-        sparcMovement1.tick();
-        sparcMovement2.tick();
     }
 
     private void render() {
@@ -92,7 +47,7 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         grid.render(g);
-        handler.render(g);
+        mainHandler.render(g);
 
         g.dispose();
         bs.show();
@@ -136,7 +91,7 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                // System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
