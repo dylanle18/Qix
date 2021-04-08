@@ -75,8 +75,10 @@ public class PlayerMovement extends Movement {
 
                     pushStart.next = originalNext;
                     originalNext.prev = pushStart;
-                    mainPath.setStart(originalNext);
-                    mainPath.setEnd(pushStart);
+                    // TODO:
+                    // fix
+                    // mainPath.setStart(originalNext);
+                    // mainPath.setEnd(pushStart);
 
                 } else {
                     pushEnd.next = currentNode;
@@ -90,9 +92,10 @@ public class PlayerMovement extends Movement {
                     }
                     lastNode.next = pushStart;
                     pushStart.prev = lastNode;
-
-                    mainPath.setStart(lastNode);
-                    mainPath.setEnd(pushStart);
+                    // TODO:
+                    // fix
+                    // mainPath.setStart(lastNode);
+                    // mainPath.setEnd(pushStart);
                 }
             }
         }
