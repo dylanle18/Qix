@@ -6,9 +6,9 @@ public class PlayerMovement extends Movement {
     private int tickCounter = 0;
     private boolean canMove = false;
 
-    private PathNode pushStart = null;
-    private PathNode pushEnd = null;
-    private PathNode originalNext = null;
+    // private PathNode pushStart = null;
+    // private PathNode pushEnd = null;
+    // private PathNode originalNext = null;
 
     public LinkedPath mainPath;
     public LinkedPath pushPath = null;
@@ -49,54 +49,55 @@ public class PlayerMovement extends Movement {
                 // makes sure the player cant walk backwards or go beside an existing push
                 if (!isPush(newTile) && !adjacentPush(tile, newTile)) {
 
-                    // Strictly moving to start a push
-                    if (isPath(tile) && !isPath(newTile)) {
-                        // keep track of the path tiles
-                        pushStart = mainPath.getNode(tile, true);
-                        originalNext = new PathNode(newTile, null, null);
-                        pushPath = new LinkedPath(originalNext);
-                    } else {
-                        pushPath.addAfter(tile, newTile);
-                    }
+                    // // Strictly moving to start a push
+                    // if (isPath(tile) && !isPath(newTile)) {
+                    //     // keep track of the path tiles
+                    //     pushStart = mainPath.getNode(tile, true);
+                    //     originalNext = new PathNode(newTile, null, null);
+                    //     pushPath = new LinkedPath(originalNext);
+                    // } else {
+                    //     pushPath.addAfter(tile, newTile);
+                    // }
                     // build sparx path with pushing player
                     player.setTile(newTile);
                 }
             }
 
             if (!isPath(tile) && isPath(newTile)) {
-                pushEnd = mainPath.getNode(newTile, true);
-                PathNode currentNode = pushPath.getNode(tile, true);
+                // pushEnd = mainPath.getNode(newTile, true);
+                // PathNode currentNode = pushPath.getNode(tile, true);
 
                 tileHandler.scan();
+                mainPath.updatePath();
                 // revisit start and end to close path in correct direction
-                if (pushEnd.inRotation()) {
-                    currentNode.next = pushEnd;
-                    pushEnd.prev = currentNode;
+                // if (pushEnd.inRotation()) {
+                //     currentNode.next = pushEnd;
+                //     pushEnd.prev = currentNode;
 
-                    pushStart.next = originalNext;
-                    originalNext.prev = pushStart;
-                    // TODO:
-                    // fix
-                    // mainPath.setStart(originalNext);
-                    // mainPath.setEnd(pushStart);
+                //     pushStart.next = originalNext;
+                //     originalNext.prev = pushStart;
+                //     // TODO:
+                //     // fix
+                //     // mainPath.setStart(originalNext);
+                //     // mainPath.setEnd(pushStart);
 
-                } else {
-                    pushEnd.next = currentNode;
-                    PathNode lastNode = pushEnd;
-                    while (currentNode != null) {
-                        // Reverse the path
-                        currentNode.next = currentNode.prev;
-                        currentNode.prev = lastNode;
-                        lastNode = currentNode;
-                        currentNode = currentNode.next;
-                    }
-                    lastNode.next = pushStart;
-                    pushStart.prev = lastNode;
-                    // TODO:
-                    // fix
-                    // mainPath.setStart(lastNode);
-                    // mainPath.setEnd(pushStart);
-                }
+                // } else {
+                //     pushEnd.next = currentNode;
+                //     PathNode lastNode = pushEnd;
+                //     while (currentNode != null) {
+                //         // Reverse the path
+                //         currentNode.next = currentNode.prev;
+                //         currentNode.prev = lastNode;
+                //         lastNode = currentNode;
+                //         currentNode = currentNode.next;
+                //     }
+                //     lastNode.next = pushStart;
+                //     pushStart.prev = lastNode;
+                //     // TODO:
+                //     // fix
+                //     // mainPath.setStart(lastNode);
+                //     // mainPath.setEnd(pushStart);
+                // }
             }
         }
 
