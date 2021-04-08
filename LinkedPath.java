@@ -1,14 +1,31 @@
 public class LinkedPath {
     private PathNode start;
     private PathNode end;
-    public int size;
+    public int size = 0;
 
     public LinkedPath() {
         this.start = null;
         this.end = null;
-        this.size = 0;
 
         this.mapGrid();
+    }
+
+    // TODO:
+    // This is a scuffed shortcut.
+    // Should change this to another class which is just a DoublyLinkedList
+    public LinkedPath(PathNode node) {
+        node.setNext(node);
+        start = node;
+        end = node;
+        size = 1;
+    }
+
+    public void setStart(PathNode start) {
+        this.start = start;
+    }
+
+    public void setEnd(PathNode end) {
+        this.end = end;
     }
 
     private void mapGrid() {
@@ -33,7 +50,7 @@ public class LinkedPath {
 
     public void addStart(Tile tile) {
         PathNode node = new PathNode(tile, null, null);
-        size += 1;
+        this.size += 1;
         if (start == null) {
             node.setPrev(node);
             node.setNext(node);
@@ -50,7 +67,7 @@ public class LinkedPath {
 
     public void addEnd(Tile tile) {
         PathNode node = new PathNode(tile, null, null);
-        size += 1;
+        this.size += 1;
         if (start == null) {
             node.setPrev(node);
             node.setNext(node);
@@ -65,6 +82,16 @@ public class LinkedPath {
         }
     }
 
+    public void addAfter(Tile curTile, Tile newTile) {
+        PathNode curNode = this.getNode(curTile, true);
+
+        if (curNode != null) {
+            size += 1;
+            PathNode nextNode = new PathNode(newTile, curNode, null);
+            curNode.next = nextNode;
+        }
+    }
+
     public void display() {
         if (size == 0) {
             System.out.println("Empty");
@@ -73,7 +100,7 @@ public class LinkedPath {
         } else {
             System.out.print("(" + start.tile.getRow() + ", " + start.tile.getCol() + ")");
             PathNode node = start.next;
-            while (start.tile != node.tile) {
+            while (node != null && start.tile != node.tile) {
                 System.out.print(" <=> (" + node.tile.getRow() + ", " + node.tile.getCol() + ")");
                 node = node.next;
             }

@@ -2,6 +2,11 @@ import java.awt.Graphics;
 
 public class Grid {
 
+    private static final int[] ABOVE = { -1, 0 };
+    private static final int[] BELOW = { 1, 0 };
+    private static final int[] LEFT = { 0, -1 };
+    private static final int[] RIGHT = { 0, 1 };
+
     public static Tile[][] map;
     private int rows, columns;
 
@@ -25,7 +30,51 @@ public class Grid {
         }
     }
 
-    public static Tile getTile(int row, int col){
+    public static Tile getTile(int row, int col) {
         return map[row][col];
+    }
+
+    public static boolean nextToEmpty(Tile tile) {
+        if (Grid.inGrid(tile.getRow() + ABOVE[0], tile.getCol() + ABOVE[1])
+                && Grid.getTile(tile.getRow() + ABOVE[0], tile.getCol() + ABOVE[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        if (Grid.inGrid(tile.getRow() + BELOW[0], tile.getCol() + BELOW[1])
+                && Grid.getTile(tile.getRow() + BELOW[0], tile.getCol() + BELOW[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        if (Grid.inGrid(tile.getRow() + LEFT[0], tile.getCol() + LEFT[1])
+                && Grid.getTile(tile.getRow() + LEFT[0], tile.getCol() + LEFT[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        if (Grid.inGrid(tile.getRow() + RIGHT[0], tile.getCol() + RIGHT[1])
+                && Grid.getTile(tile.getRow() + RIGHT[0], tile.getCol() + RIGHT[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean cornerIsNextEmpty(Tile tile) {
+        if (Grid.inGrid(tile.getRow() + BELOW[0], tile.getCol() + RIGHT[1])
+                && Grid.getTile(tile.getRow() + BELOW[0], tile.getCol() + RIGHT[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        if (Grid.inGrid(tile.getRow() + ABOVE[0], tile.getCol() + RIGHT[1])
+                && Grid.getTile(tile.getRow() + ABOVE[0], tile.getCol() + RIGHT[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        if (Grid.inGrid(tile.getRow() + ABOVE[0], tile.getCol() + LEFT[1])
+                && Grid.getTile(tile.getRow() + ABOVE[0], tile.getCol() + LEFT[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        if (Grid.inGrid(tile.getRow() + BELOW[0], tile.getCol() + LEFT[1])
+                && Grid.getTile(tile.getRow() + BELOW[0], tile.getCol() + LEFT[1]).getTileID() == TileID.EMPTY) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean inGrid(int row, int col) {
+        return row >= 0 && row < Game.GRIDSIZE && col >= 0 && col < Game.GRIDSIZE;
     }
 }
