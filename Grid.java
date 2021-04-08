@@ -1,11 +1,12 @@
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public class Grid {
 
-    private static final int[] ABOVE = { -1, 0 };
-    private static final int[] BELOW = { 1, 0 };
-    private static final int[] LEFT = { 0, -1 };
-    private static final int[] RIGHT = { 0, 1 };
+    public static final int[] ABOVE = { -1, 0 };
+    public static final int[] BELOW = { 1, 0 };
+    public static final int[] LEFT = { 0, -1 };
+    public static final int[] RIGHT = { 0, 1 };
 
     public static Tile[][] map;
     private int rows, columns;
@@ -76,5 +77,21 @@ public class Grid {
 
     public static boolean inGrid(int row, int col) {
         return row >= 0 && row < Game.GRIDSIZE && col >= 0 && col < Game.GRIDSIZE;
+    }
+
+    public static Tile findNearestTile(Tile giventile, ArrayList<Tile> tiles) {
+        double nearestDistSquared = Double.POSITIVE_INFINITY;
+        int distanceSquared;
+        Tile nearestTile = null;
+        for (int i = 0; i < tiles.size(); ++i) {
+            Tile toBeCheckedTile = tiles.get(i);
+            distanceSquared = (giventile.getCol() - toBeCheckedTile.getCol()) * (giventile.getCol() - toBeCheckedTile.getCol())
+                    + (giventile.getRow() - toBeCheckedTile.getRow()) * (giventile.getRow() - toBeCheckedTile.getRow());
+            if (distanceSquared < nearestDistSquared) {
+                nearestDistSquared = distanceSquared;
+                nearestTile = toBeCheckedTile;
+            }
+        }
+        return nearestTile;
     }
 }

@@ -3,7 +3,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 public class HUD {
-    
+
     private int lives, winPercent, level, claimPercent;
 
     public HUD(int lives, int winPercent) {

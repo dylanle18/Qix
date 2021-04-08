@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class LinkedPath {
     private PathNode start;
     private PathNode end;
@@ -8,6 +10,15 @@ public class LinkedPath {
         this.end = null;
 
         this.mapGrid();
+    }
+
+    public LinkedPath(boolean makeGrid) {
+        this.start = null;
+        this.end = null;
+
+        if (makeGrid) {
+            this.mapGrid();
+        }
     }
 
     // TODO:
@@ -145,4 +156,47 @@ public class LinkedPath {
             return curretNode;
         }
     }
+
+    public void updatePath() {
+        // Get the new tiles
+        ArrayList<Tile> newPathTiles = new ArrayList<Tile>();
+        Tile aTile;
+        for (int i = 0; i < Game.GRIDSIZE; i++) {
+            for (int j = 0; j < Game.GRIDSIZE; j++) {
+                aTile = Grid.map[i][j];
+                if (aTile.getTileID() == TileID.PATH) {
+                    if (Grid.nextToEmpty(aTile) || Grid.cornerIsNextEmpty(aTile)) {
+                        newPathTiles.add(aTile);
+                    }
+                }
+            }
+        }
+
+        // Sort the tiles into a path
+        ArrayList<Tile> sortedPathTiles = new ArrayList<Tile>();
+
+        sortedPathTiles.add(newPathTiles.remove(0)); // Arbitrary starting point
+        Tile nearestTile;
+
+        // Search the newPath tiles until there's none left
+        while (newPathTiles.size() > 0) {
+            // Find the closest tile to the current tile in sortedPathTiles
+            nearestTile = Grid.findNearestTile(sortedPathTiles.get(sortedPathTiles.size() - 1), newPathTiles);
+
+            // Remove from the nearest from newPathTiles and add it to the sortedPathTiles
+            sortedPathTiles.add(newPathTiles.remove(newPathTiles.indexOf(nearestTile)));
+        }
+
+        // Rebuild the LinkedPath with these new sorted tiles
+        LinkedPath newPath = new LinkedPath(false);
+        for (Tile tile : sortedPathTiles) {
+            newPath.addEnd(tile);
+        }
+
+        // Switch to the new path
+        this.start =  newPath.start;
+        this.end =  newPath.end;
+        // this.display();
+    }
+
 }
