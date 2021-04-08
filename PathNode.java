@@ -9,6 +9,11 @@ public class PathNode {
         this.next = next;
     }
 
+    public boolean inRotation() {
+        Tile nextTile = this.next.tile;
+        return Grid.nextToEmpty(nextTile) || Grid.cornerIsNextEmpty(nextTile);
+    }
+
     public void setPrev(PathNode prev) {
         this.prev = prev;
     }
