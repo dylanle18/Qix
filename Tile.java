@@ -16,7 +16,11 @@ public class Tile {
     }
 
     public void render(Graphics g) {
-        g.setColor(tileID.getColor());
+        if (tileID == TileID.CLAIM) {
+            g.setColor(TileID.claimColor);
+        } else {
+            g.setColor(tileID.getColor());
+        }
         g.fillRect(x, y, size, size);
     }
 

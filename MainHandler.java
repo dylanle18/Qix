@@ -6,12 +6,17 @@ public class MainHandler {
     private MovementHandler movementHandler;
     private TileHandler tileHandler;
 
+    private HUD hud;
+
     public LinkedPath mainPath;
 
     public MainHandler(Player player) {
         objectHandler = new ObjectHandler();
         movementHandler = new MovementHandler();
-        tileHandler = new TileHandler(player);
+
+        hud = new HUD(5, 50);
+
+        tileHandler = new TileHandler(player, hud);
 
         mainPath = new LinkedPath();
 
@@ -27,19 +32,21 @@ public class MainHandler {
         // SPARX
         Sparx sparx = new Sparx(ID.SPARX, mainPath.getStart().tile, true);
         objectHandler.addObject(sparx);
-        movementHandler.addMovement(new SparxMovement(sparx, mainPath.getStart(), 1));
+        movementHandler.addMovement(new SparxMovement(sparx, mainPath.getStart(), 4));
     }
 
     public void tick() {
         objectHandler.tick();
         movementHandler.tick();
         tileHandler.tick();
+
         // System.out.printf("head: %d, %d\n", this.mainPath.head.tile.getX(),
         // this.mainPath.head.tile.getY());
     }
 
     public void render(Graphics g) {
         objectHandler.render(g);
+        hud.render(g);
     }
 
 }

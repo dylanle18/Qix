@@ -7,7 +7,7 @@ public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = -1442798787354930462L;
 
-    public static final int WIDTH = 1000, HEIGHT = 800, GRIDSIZE = 150, TILESIZE = 5;
+    public static final int WIDTH = 1000, HEIGHT = 690, GRIDSIZE = 64, TILESIZE = 10;
     private Thread thread;
     private boolean running = false;
 
@@ -91,7 +91,7 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                // System.out.println("FPS: " + frames);
+                System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
