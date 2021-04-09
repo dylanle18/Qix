@@ -11,27 +11,53 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
 
-    private MainHandler mainHandler;
+    // private MainHandler mainHandler;
 
-    private Grid grid;
-    private Player player;
+    // private Grid grid;
+    // private Player player;
 
-    private PlayerInput playerInput;
+    // private PlayerInput playerInput;
+
+    public enum STATE {
+        MENU, GAME, CREDITS
+    };
+
+    private Menu menu = new Menu();
+    private CreditsScreen credits = new CreditsScreen();
+    private MouseInput mouseInput = new MouseInput();;
+
+    public static STATE state = STATE.MENU;
+
+    // private boolean gameStarted = false;
+    private boolean creditsStarted = false;
+    private Level level;
 
     public Game() {
-        grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
-        player = new Player(ID.PLAYER, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2));
+        // grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
+        // player = new Player(ID.PLAYER, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2));
 
-        mainHandler = new MainHandler(player);
-        playerInput = new PlayerInput(player);
-
-        this.addKeyListener(playerInput);
+        // mainHandler = new MainHandler(player);
+        // playerInput = new PlayerInput(player);
+        level = new Level(this);
+        // this.addKeyListener(playerInput);
+        this.addMouseListener(mouseInput);
         new Window(WIDTH, HEIGHT, "GAME", this);
     }
 
+    // private void resetGame() {
+        // grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
+        // player = new Player(ID.PLAYER, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2));
+        // playerInput = new PlayerInput(player);
+        // this.addKeyListener(playerInput);
+        // mainHandler = new MainHandler(player);
+    // }
+
     private void tick() {
-        mainHandler.tick();
-        playerInput.tick();
+        if (state == STATE.GAME) {
+            // mainHandler.tick();
+            // playerInput.tick();
+            level.tick();
+        }
     }
 
     private void render() {
@@ -46,8 +72,28 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        grid.render(g);
-        mainHandler.render(g);
+        if (state == STATE.GAME) {
+            // grid.render(g);
+            // mainHandler.render(g);
+            // this.gameStarted = true;
+            level.render(g);
+
+        } else if (state == STATE.MENU) {
+            // if (this.gameStarted) {
+            //     this.resetGame();
+            //     this.gameStarted = false;
+
+            // } else 
+            if (creditsStarted) {
+                credits.randColor = TileID.getRandColor();
+                creditsStarted = false;
+            }
+            menu.render(g);
+
+        } else if (state == STATE.CREDITS) {
+            credits.render(g);
+            creditsStarted = true;
+        }
 
         g.dispose();
         bs.show();
@@ -75,7 +121,7 @@ public class Game extends Canvas implements Runnable {
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
-        int frames = 0;
+        // int frames = 0;
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -87,13 +133,14 @@ public class Game extends Canvas implements Runnable {
             if (running) {
                 render();
             }
-            frames++;
+            // frames++;
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 // System.out.println("FPS: " + frames);
-                frames = 0;
+                // frames = 0;
             }
+
         }
         stop();
     }
