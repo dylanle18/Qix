@@ -28,7 +28,7 @@ public class Game extends Canvas implements Runnable {
 
     public static STATE state = STATE.MENU;
 
-    // private boolean gameStarted = false;
+    private boolean gameStarted = false;
     private boolean creditsStarted = false;
     private Level level;
 
@@ -44,13 +44,9 @@ public class Game extends Canvas implements Runnable {
         new Window(WIDTH, HEIGHT, "GAME", this);
     }
 
-    // private void resetGame() {
-        // grid = new Grid(5, 5, TILESIZE, GRIDSIZE, GRIDSIZE);
-        // player = new Player(ID.PLAYER, Grid.getTile(GRIDSIZE - 1, GRIDSIZE / 2));
-        // playerInput = new PlayerInput(player);
-        // this.addKeyListener(playerInput);
-        // mainHandler = new MainHandler(player);
-    // }
+    private void resetGame() {
+        level = new Level(this);
+    }
 
     private void tick() {
         if (state == STATE.GAME) {
@@ -75,17 +71,15 @@ public class Game extends Canvas implements Runnable {
         if (state == STATE.GAME) {
             // grid.render(g);
             // mainHandler.render(g);
-            // this.gameStarted = true;
+            this.gameStarted = true;
             level.render(g);
 
         } else if (state == STATE.MENU) {
-            // if (this.gameStarted) {
-            //     this.resetGame();
-            //     this.gameStarted = false;
+            if (this.gameStarted) {
+                this.resetGame();
+                this.gameStarted = false;
 
-            // } else 
-            if (creditsStarted) {
-                credits.randColor = TileID.getRandColor();
+            } else if (creditsStarted) {
                 creditsStarted = false;
             }
             menu.render(g);

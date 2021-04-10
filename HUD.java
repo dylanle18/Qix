@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 public class HUD {
 
-    public static final Rectangle backToMenuButton = new Rectangle(730, 325, 150, 50);
+    public static final Rectangle backToMenuButton = new Rectangle(730, 385, 150, 50);
     private int lives, winPercent, levelNumber, claimPercent;
 
     public HUD(int lives, int winPercent, int levelNumber) {
@@ -27,7 +27,7 @@ public class HUD {
         g.drawString("Level:" + String.valueOf(levelNumber) , 655, 150);
         g.drawString("Claimed:" + String.valueOf(claimPercent) + "%", 655, 200);
         g.drawString("Claim Goal:" + String.valueOf(winPercent) + "%", 655, 250);
-        g.drawString("Pause", backToMenuButton.x + 20, backToMenuButton.y + 33);
+        g.drawString("Quit", backToMenuButton.x + 33, backToMenuButton.y + 33);
         g2d.draw(backToMenuButton);
     }
 

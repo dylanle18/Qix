@@ -1,8 +1,16 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.util.LinkedList;
-import java.util.Random;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 public class Level {
+
+    public enum SCREEN_STATE {
+        PLAYING, COMPLETE, WIN, LOSE, NEXT_LEVEL, PAUSE
+    };
+
+    public static SCREEN_STATE screenState = SCREEN_STATE.PLAYING;
 
     private LevelHandler levelHandler;
 
@@ -24,7 +32,7 @@ public class Level {
         this.player = new Player(ID.PLAYER, Grid.getTile(Game.GRIDSIZE - 1, Game.GRIDSIZE / 2));
         this.currentLevel = 1;
         this.currentLives = 5;
-        this.currentWinPercent = 40;
+        this.currentWinPercent = 1;
         this.sparxNumber = 3;
         this.sparxSpeed = 10;
         this.qixSpeed = 10;
@@ -33,14 +41,16 @@ public class Level {
         this.playerInput = new PlayerInput(player);
         this.game = game;
         this.game.addKeyListener(this.playerInput);
+
+        screenState = SCREEN_STATE.PLAYING;
     }
 
     private void nextLevel() {
         ++this.currentLevel;
-        this.currentWinPercent += 5;
+        this.currentWinPercent += 1;
         ++this.sparxNumber;
         --this.sparxSpeed;
-        --this.qixSpeed; 
+        --this.qixSpeed;
 
         this.grid = new Grid(5, 5, Game.TILESIZE, Game.GRIDSIZE, Game.GRIDSIZE);
         this.player = new Player(ID.PLAYER, Grid.getTile(Game.GRIDSIZE - 1, Game.GRIDSIZE / 2));
@@ -51,17 +61,32 @@ public class Level {
     }
 
     public void render(Graphics g) {
+        this.showPauseButton(g);
         grid.render(g);
         levelHandler.render(g);
+        if (screenState == SCREEN_STATE.COMPLETE) { // Level won
+            this.showLevelComplete(g);
+        }
+        if (screenState == SCREEN_STATE.PAUSE) { // Level won
+            this.showUnPauseButton(g);
+        } else if (screenState != SCREEN_STATE.PAUSE) {
+            this.showPauseButton(g);
+        }
     }
 
     public void tick() {
-        if (levelHandler.hud.getClaimPercent() >= levelHandler.hud.getWinPercent()) { // Level won
+        // System.out.println(screenState);
+        if (screenState == SCREEN_STATE.PLAYING) {
+            levelHandler.tick();
+            playerInput.tick();
+        } else if (screenState == SCREEN_STATE.NEXT_LEVEL) {
             this.nextLevel();
+            screenState = SCREEN_STATE.PLAYING;
         }
 
-        levelHandler.tick();
-        playerInput.tick();
+        if (levelHandler.hud.getClaimPercent() >= levelHandler.hud.getWinPercent()) { // Level won
+            screenState = SCREEN_STATE.COMPLETE;
+        }
     }
 
     public Player getPlayer() {
@@ -72,41 +97,45 @@ public class Level {
         return this.playerInput;
     }
 
-    // private LinkedList<GameObject> object = new LinkedList<GameObject>();
-    // private LinkedList<Movement> movement = new LinkedList<Movement>();
-    // private int numOfQix, qixDrag, numOfSparx, sparxDrag;
-    // private Random rand = new Random();
+    private void showLevelComplete(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g.setColor(TileID.claimColor.brighter());
+        g2d.fill(nextLevelButton);
 
-    // public Level(int numOfQix, int qixDrag, int numOfSparx, int sparxDrag) {
-    // this.numOfQix = numOfQix;
-    // this.qixDrag = qixDrag;
-    // this.numOfSparx = numOfSparx;
-    // this.sparxDrag = sparxDrag;
-    // startLevel();
-    // }
+        g.setFont(new Font("SansSerif", Font.BOLD, 50));
+        g.drawString("Level: " + String.valueOf(this.currentLevel) + " Complete!", (int) (Game.GRIDSIZE / 5) * 10,
+                ((int) (Game.GRIDSIZE / 2) * 10) + 25);
 
-    // public void tick() {
+        g.setColor(TileID.claimColor.darker());
+        g.setFont(new Font("SansSerif", Font.BOLD, 36));
+        g.drawString("Next Level", ((int) (Game.GRIDSIZE / 3) * 10) + 50, ((int) (Game.GRIDSIZE / 2) * 10) + 85);
+    }
 
-    // }
+    private void showPauseButton(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g.setColor(Color.white);
+        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+        g.drawString("Pause", pauseButton.x + 35, pauseButton.y + 33);
+        g2d.draw(pauseButton);
+    }
 
-    // public void render(Graphics g) {
+    private void showUnPauseButton(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g.setColor(Color.black);
+        g2d.fill(pauseButton);
+        g.setColor(Color.white);
+        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+        g.drawString("Unpause", pauseButton.x + 10, pauseButton.y + 33);
+        g2d.draw(pauseButton);
 
-    // }
+        g.setColor(TileID.claimColor.brighter());
+        g.setFont(new Font("SansSerif", Font.BOLD, 50));
+        g.drawString("Paused", ((int) (Game.GRIDSIZE / 2) * 10) - 75, ((int) (Game.GRIDSIZE / 2) * 10) + 25);
+    }
 
-    // public void startLevel() {
-    // // for scalability, if more then 1 qix is never wanted
-    // // for (int i = 0; i < numOfQix; i++) {
-    // // Qix qix = new Qix(ID.QIX, Grid.getTile(Game.GRIDSIZE / 2, Game.GRIDSIZE /
-    // 2));
-    // // object.add(qix);
-    // // movement.add(new QixMovement(qix, qixDrag));
-    // // }
-    // // for (int i = 0; i < numOfSparx; i++) {
-    // // Sparx sparx = new Sparx(ID.SPARX, Grid.getTile(0,
-    // rand.nextInt(Game.GRIDSIZE)), i % 2 == 0);
-    // // object.add(sparx);
-    // // movement.add(new SparxMovement(sparx, mainPath.getStart(), sparxDrag));
-    // // }
-    // }
+    public static final Rectangle nextLevelButton = new Rectangle(((int) (Game.GRIDSIZE / 3) * 10) + 40,
+            ((int) (Game.GRIDSIZE / 2) * 10) + 50, 200, 50);
+
+    public static final Rectangle pauseButton = new Rectangle(715, 325, 175, 50);
 
 }

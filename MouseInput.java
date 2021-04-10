@@ -49,6 +49,30 @@ public class MouseInput implements MouseListener {
       }
     }
 
+    if (Level.screenState == Level.SCREEN_STATE.COMPLETE) { // NEXT LEVEL
+      if (mx >= Level.nextLevelButton.x && mx <= Level.nextLevelButton.x + Level.nextLevelButton.width) {
+        if (my >= Level.nextLevelButton.y && my <= Level.nextLevelButton.y + Level.nextLevelButton.height) {
+          Level.screenState = Level.SCREEN_STATE.NEXT_LEVEL;
+        }
+      }
+    }
+
+    if (Level.screenState == Level.SCREEN_STATE.PLAYING) { // PAUSE
+      if (mx >= Level.pauseButton.x && mx <= Level.pauseButton.x + Level.pauseButton.width) {
+        if (my >= Level.pauseButton.y && my <= Level.pauseButton.y + Level.pauseButton.height) {
+          Level.screenState = Level.SCREEN_STATE.PAUSE;
+        }
+      }
+    }
+
+    else if (Level.screenState == Level.SCREEN_STATE.PAUSE) { // UNPAUSE
+      if (mx >= Level.pauseButton.x && mx <= Level.pauseButton.x + Level.pauseButton.width) {
+        if (my >= Level.pauseButton.y && my <= Level.pauseButton.y + Level.pauseButton.height) {
+          Level.screenState = Level.SCREEN_STATE.PLAYING;
+        }
+      }
+    }
+
   }
 
   public void mouseReleased(MouseEvent e) {
