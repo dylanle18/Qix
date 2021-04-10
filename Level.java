@@ -32,10 +32,10 @@ public class Level {
         this.player = new Player(ID.PLAYER, Grid.getTile(Game.GRIDSIZE - 1, Game.GRIDSIZE / 2));
         this.currentLevel = 1;
         this.currentLives = 5;
-        this.currentWinPercent = 1;
+        this.currentWinPercent = 70;
         this.sparxNumber = 3;
         this.sparxSpeed = 10;
-        this.qixSpeed = 10;
+        this.qixSpeed = 1;
         this.levelHandler = new LevelHandler(player, this.currentLives, this.currentWinPercent, this.currentLevel,
                 this.sparxNumber, this.sparxSpeed, this.qixSpeed);
         this.playerInput = new PlayerInput(player);

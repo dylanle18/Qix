@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public class PlayerMovement extends Movement {
 
     private Player player;
@@ -6,17 +8,14 @@ public class PlayerMovement extends Movement {
     private int tickCounter = 0;
     private boolean canMove = false;
 
-    // private PathNode pushStart = null;
-    // private PathNode pushEnd = null;
-    // private PathNode originalNext = null;
-
     public LinkedPath mainPath;
-    public LinkedPath pushPath = null;
 
     public PlayerMovement(Player player, TileHandler tileHandler, LinkedPath mainPath) {
         this.player = player;
         this.tileHandler = tileHandler;
         this.mainPath = mainPath;
+        this.startedPushing = false;
+        this.pushingPath = new LinkedList<Tile>();
     }
 
     public void tick() {
@@ -33,6 +32,10 @@ public class PlayerMovement extends Movement {
         }
     }
 
+    public boolean startedPushing;
+    public Tile startingPushTile;
+    public LinkedList<Tile> pushingPath;
+
     public void move() {
         Tile tile = player.getTile();
         int newRow = tile.getRow() + player.getVelY();
@@ -46,58 +49,29 @@ public class PlayerMovement extends Movement {
                 player.setTile(newTile);
                 // if the player is pressing space or currently pushing
             } else if (pressingPush() && !isClaim(newTile) || pushing() && !isClaim(newTile)) {
+                if (!startedPushing) {
+                    startedPushing = true;
+                    startingPushTile = this.player.getTile();
+                    // System.out.printf("%d,%d\n", this.player.getTile().getCol(), this.player.getTile().getRow());
+                }
+
                 // makes sure the player cant walk backwards or go beside an existing push
                 if (!isPush(newTile) && !adjacentPush(tile, newTile)) {
-
-                    // // Strictly moving to start a push
-                    // if (isPath(tile) && !isPath(newTile)) {
-                    //     // keep track of the path tiles
-                    //     pushStart = mainPath.getNode(tile, true);
-                    //     originalNext = new PathNode(newTile, null, null);
-                    //     pushPath = new LinkedPath(originalNext);
-                    // } else {
-                    //     pushPath.addAfter(tile, newTile);
-                    // }
-                    // build sparx path with pushing player
                     player.setTile(newTile);
+                    newTile.setHasPush(true);
+                    this.pushingPath.add(newTile);
                 }
             }
 
             if (!isPath(tile) && isPath(newTile)) {
-                // pushEnd = mainPath.getNode(newTile, true);
-                // PathNode currentNode = pushPath.getNode(tile, true);
-
                 tileHandler.scan();
                 mainPath.updatePath();
-                // revisit start and end to close path in correct direction
-                // if (pushEnd.inRotation()) {
-                //     currentNode.next = pushEnd;
-                //     pushEnd.prev = currentNode;
+                startedPushing = false;
 
-                //     pushStart.next = originalNext;
-                //     originalNext.prev = pushStart;
-                //     // TODO:
-                //     // fix
-                //     // mainPath.setStart(originalNext);
-                //     // mainPath.setEnd(pushStart);
-
-                // } else {
-                //     pushEnd.next = currentNode;
-                //     PathNode lastNode = pushEnd;
-                //     while (currentNode != null) {
-                //         // Reverse the path
-                //         currentNode.next = currentNode.prev;
-                //         currentNode.prev = lastNode;
-                //         lastNode = currentNode;
-                //         currentNode = currentNode.next;
-                //     }
-                //     lastNode.next = pushStart;
-                //     pushStart.prev = lastNode;
-                //     // TODO:
-                //     // fix
-                //     // mainPath.setStart(lastNode);
-                //     // mainPath.setEnd(pushStart);
-                // }
+                for (Tile pushedTile : this.pushingPath) {
+                    pushedTile.setHasPush(false);
+                }
+                this.pushingPath = new LinkedList<Tile>();
             }
         }
 

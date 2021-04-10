@@ -5,6 +5,8 @@ public class Tile {
     private int x, y, size, row, col;
     private TileID tileID;
     private boolean hasQix = false;
+    private boolean hasSparx = false;
+    private boolean hasPush = false;
 
     public Tile(int x, int y, int size, int row, int col, TileID tileID) {
         this.x = x;
@@ -28,8 +30,24 @@ public class Tile {
         return hasQix;
     }
 
+    public boolean getHasSparx() {
+        return hasSparx;
+    }
+
+    public boolean getHasPush() {
+        return hasPush;
+    }
+
     public void setHasQix(boolean hasQix) {
         this.hasQix = hasQix;
+    }
+
+    public void setHasSparx(boolean hasSparx) {
+        this.hasSparx = hasSparx;
+    }
+
+    public void setHasPush(boolean hasPush) {
+        this.hasPush = hasPush;
     }
 
     public int getX() {
