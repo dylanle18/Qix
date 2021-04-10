@@ -32,9 +32,9 @@ public class SparxMovement extends Movement {
 
     public void move() {
         Tile previousTile = this.sparx.getTile();
-
-        if (this.sparx.getTile() == this.mainPath.getNode(this.sparx.getTile(), true).tile) {
-            this.node = this.mainPath.getNode(this.sparx.getTile(), true);
+        PathNode prevNode = this.mainPath.getNode(previousTile, true);
+        if ((prevNode != null) && previousTile == prevNode.tile) {
+            this.node = prevNode;
         }
 
         if (this.node.next != null && sparx.clockwise) {

@@ -21,16 +21,6 @@ public class LinkedPath {
         }
     }
 
-    // TODO:
-    // This is a scuffed shortcut.
-    // Should change this to another class which is just a DoublyLinkedList
-    public LinkedPath(PathNode node) {
-        node.setNext(node);
-        start = node;
-        end = node;
-        size = 1;
-    }
-
     public void setStart(PathNode start) {
         this.start = start;
     }
@@ -151,9 +141,9 @@ public class LinkedPath {
         }
 
         if (tile == this.end.tile) {
-            return null;
-        } else {
             return curretNode;
+        } else {
+            return null;
         }
     }
 
@@ -194,8 +184,8 @@ public class LinkedPath {
         }
 
         // Switch to the new path
-        this.start =  newPath.start;
-        this.end =  newPath.end;
+        this.start = newPath.start;
+        this.end = newPath.end;
         // this.display();
     }
 

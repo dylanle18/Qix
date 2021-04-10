@@ -44,15 +44,16 @@ public class PlayerMovement extends Movement {
         if (inGrid(newRow, newCol)) {
             Tile newTile = Grid.getTile(newRow, newCol);
 
-            // if the player is moving to a new path tile
-            if (isPath(newTile)) {
+            // if the player is moving to a new path tile && tile is in mainPath
+            if (isPath(newTile) && (mainPath.getNode(newTile, true) != null)) {
                 player.setTile(newTile);
                 // if the player is pressing space or currently pushing
             } else if (pressingPush() && !isClaim(newTile) || pushing() && !isClaim(newTile)) {
                 if (!startedPushing) {
                     startedPushing = true;
                     startingPushTile = this.player.getTile();
-                    // System.out.printf("%d,%d\n", this.player.getTile().getCol(), this.player.getTile().getRow());
+                    // System.out.printf("%d,%d\n", this.player.getTile().getCol(),
+                    // this.player.getTile().getRow());
                 }
 
                 // makes sure the player cant walk backwards or go beside an existing push
