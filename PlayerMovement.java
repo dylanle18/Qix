@@ -48,7 +48,7 @@ public class PlayerMovement extends Movement {
             if (isPath(newTile) && (mainPath.getNode(newTile, true) != null)) {
                 player.setTile(newTile);
                 // if the player is pressing space or currently pushing
-            } else if (pressingPush() && !isClaim(newTile) || pushing() && !isClaim(newTile)) {
+            } else if (pressingPush() && !isClaim(newTile) && !isPath(newTile) || pushing() && !isClaim(newTile)) {
                 if (!startedPushing) {
                     startedPushing = true;
                     startingPushTile = this.player.getTile();
