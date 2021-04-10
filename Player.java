@@ -17,7 +17,11 @@ public class Player extends GameObject {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.green);
+        if (LevelHandler.playerState == PlayerState.IMMUNE) {
+            g.setColor(new Color(0, 100 ,0));
+        } else {
+            g.setColor(Color.green);
+        }
         g.fillRect(tile.getX(), tile.getY(), Game.TILESIZE, Game.TILESIZE);
     }
 
