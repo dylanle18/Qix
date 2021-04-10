@@ -27,7 +27,9 @@ public class HUD {
         g.drawString("Level:" + String.valueOf(levelNumber) , 655, 150);
         g.drawString("Claimed:" + String.valueOf(claimPercent) + "%", 655, 200);
         g.drawString("Claim Goal:" + String.valueOf(winPercent) + "%", 655, 250);
-        g.drawString("Move: →↑↓←", 655, 550);
+        g.drawString("Move:", 655, 535);
+        g.drawString("\u2191", 819, 520);
+        g.drawString("\u2190\u2193\u2192", 787, 550);
         g.drawString("Push: Space", 655, 600);
         g.drawString("Quit", backToMenuButton.x + 33, backToMenuButton.y + 33);
         g2d.draw(backToMenuButton);
