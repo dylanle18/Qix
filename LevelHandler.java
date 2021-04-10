@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class LevelHandler {
 
@@ -41,14 +42,24 @@ public class LevelHandler {
     // QIX
     this.qix = new Qix(ID.QIX, Grid.getTile(Game.GRIDSIZE / 2, Game.GRIDSIZE / 2));
     objectHandler.addObject(qix);
-    movementHandler.addMovement(new QixMovement(qix, qixSpeed));
+    if (qixSpeed < 1) {
+      movementHandler.addMovement(new QixMovement(qix, 1));
+    } else {
+      movementHandler.addMovement(new QixMovement(qix, qixSpeed));
+    }
 
     // SPARX
     boolean clockwise = true;
+    Random randInt = new Random();
     for (int i = 0; i < sparxNumber; ++i) {
-      Sparx sparx = new Sparx(ID.SPARX, mainPath.getStart().tile, clockwise);
+      Tile randomTile = Grid.getRandomEdgeTile();
+      Sparx sparx = new Sparx(ID.SPARX, randomTile, clockwise);
+      int newSpeed = sparxSpeed + randInt.nextInt(sparxNumber)/2 - randInt.nextInt(sparxNumber)/2;
+      if (newSpeed <= 0) {
+        newSpeed = 1;
+      }
       objectHandler.addObject(sparx);
-      movementHandler.addMovement(new SparxMovement(sparx, mainPath.getStart(), mainPath, sparxSpeed - i));
+      movementHandler.addMovement(new SparxMovement(sparx, mainPath.getStart(), mainPath, newSpeed));
       clockwise = !clockwise;
     }
 
@@ -69,10 +80,10 @@ public class LevelHandler {
   private LinkedList<Tile> tilesToRemove;
 
   public void tick() {
-    this.player.tick();
     objectHandler.tick();
     movementHandler.tick();
     tileHandler.tick();
+    this.player.tick();
 
     // HitSparx
     if (playerState == PLAYER_STATE.NOT_IMMUNE && this.player.tile.getHasSparx()) {

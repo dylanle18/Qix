@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Grid {
 
@@ -85,7 +86,8 @@ public class Grid {
         Tile nearestTile = null;
         for (int i = 0; i < tiles.size(); ++i) {
             Tile toBeCheckedTile = tiles.get(i);
-            distanceSquared = (giventile.getCol() - toBeCheckedTile.getCol()) * (giventile.getCol() - toBeCheckedTile.getCol())
+            distanceSquared = (giventile.getCol() - toBeCheckedTile.getCol())
+                    * (giventile.getCol() - toBeCheckedTile.getCol())
                     + (giventile.getRow() - toBeCheckedTile.getRow()) * (giventile.getRow() - toBeCheckedTile.getRow());
             if (distanceSquared < nearestDistSquared) {
                 nearestDistSquared = distanceSquared;
@@ -93,5 +95,18 @@ public class Grid {
             }
         }
         return nearestTile;
+    }
+
+    public static Tile getRandomEdgeTile() { // Except bottom edge
+        Random randInt = new Random();
+        Tile returnTile;
+        if (randInt.nextInt() % 3 == 0) {
+            returnTile = Grid.getTile(0, randInt.nextInt(Game.GRIDSIZE));
+        } else if (randInt.nextInt() % 3 == 1) {
+            returnTile = Grid.getTile(randInt.nextInt(Game.GRIDSIZE), 0);
+        } else {
+            returnTile = Grid.getTile(randInt.nextInt(Game.GRIDSIZE), Game.GRIDSIZE - 1);
+        }
+        return returnTile;
     }
 }
