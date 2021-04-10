@@ -41,7 +41,7 @@ public class Game extends Canvas implements Runnable {
         level = new Level(this);
         // this.addKeyListener(playerInput);
         this.addMouseListener(mouseInput);
-        new Window(WIDTH, HEIGHT, "GAME", this);
+        new Window(WIDTH, HEIGHT, "QIX", this);
     }
 
     private void resetGame() {
