@@ -4,11 +4,7 @@ import java.util.Random;
 
 public class LevelHandler {
 
-  public enum PLAYER_STATE {
-    IMMUNE, NOT_IMMUNE
-  };
-
-  public static PLAYER_STATE playerState;
+  public static PlayerState playerState;
 
   private ObjectHandler objectHandler;
   private MovementHandler movementHandler;
@@ -34,7 +30,7 @@ public class LevelHandler {
 
     // PLAYER
     this.player = player;
-    playerState = PLAYER_STATE.NOT_IMMUNE;
+    playerState = PlayerState.NOT_IMMUNE;
     this.playerMovement = new PlayerMovement(player, tileHandler, mainPath);
     // objectHandler.addObject(player);
     movementHandler.addMovement(this.playerMovement);
@@ -73,7 +69,7 @@ public class LevelHandler {
     int newLives = hud.getLives();
     --newLives;
     hud.setLives(newLives);
-    playerState = PLAYER_STATE.IMMUNE;
+    playerState = PlayerState.IMMUNE;
     startImmuneTime = System.currentTimeMillis();
   }
 
@@ -86,7 +82,7 @@ public class LevelHandler {
     this.player.tick();
 
     // HitSparx
-    if (playerState == PLAYER_STATE.NOT_IMMUNE && this.player.tile.getHasSparx()) {
+    if (playerState == PlayerState.NOT_IMMUNE && this.player.tile.getHasSparx()) {
       this.loseLife(this.player, this.hud);
     }
 
@@ -104,9 +100,9 @@ public class LevelHandler {
       this.loseLife(this.player, this.hud);
     }
 
-    if (playerState == PLAYER_STATE.IMMUNE) {
+    if (playerState == PlayerState.IMMUNE) {
       if (System.currentTimeMillis() - startImmuneTime > 5000) {
-        playerState = PLAYER_STATE.NOT_IMMUNE;
+        playerState = PlayerState.NOT_IMMUNE;
       }
     }
 
@@ -119,7 +115,7 @@ public class LevelHandler {
   private int immuneCounter = 0;
 
   public void render(Graphics g) {
-    if (playerState == PLAYER_STATE.IMMUNE) {
+    if (playerState == PlayerState.IMMUNE) {
       if (immuneCounter < 10) {
         this.player.render(g);
       } else if (immuneCounter >= 20) {
