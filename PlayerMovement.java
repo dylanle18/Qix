@@ -44,11 +44,11 @@ public class PlayerMovement extends Movement {
         if (inGrid(newRow, newCol)) {
             Tile newTile = Grid.getTile(newRow, newCol);
 
-            // if the player is moving to a new path tile && tile is in mainPath
-            if (isPath(newTile) && (mainPath.getNode(newTile, true) != null)) {
+            // if the player is moving to a new path tile
+            if (isPath(newTile)) {
                 player.setTile(newTile);
                 // if the player is pressing space or currently pushing
-            } else if (pressingPush() && !isClaim(newTile) && !isPath(newTile) || pushing() && !isClaim(newTile)) {
+            } else if (pressingPush() && !isClaim(newTile) && !isDeadPush(newTile) || pushing() && !isClaim(newTile) && !isDeadPush(newTile)) {
                 if (!startedPushing) {
                     startedPushing = true;
                     startingPushTile = this.player.getTile();
@@ -92,6 +92,10 @@ public class PlayerMovement extends Movement {
         }
 
         canMove = false;
+    }
+
+    private boolean isDeadPush(Tile tile) {
+        return tile.getTileID() == TileID.DEADPATH;
     }
 
     // checks if the given tile is a claim tile
