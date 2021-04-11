@@ -33,7 +33,7 @@ public class Grid {
     }
 
     public static Tile getTile(int row, int col) {
-        if (row >= Game.GRIDSIZE || col >= Game.GRIDSIZE) {
+        if (row >= Game.GRIDSIZE || row < 0 || col >= Game.GRIDSIZE || col < 0) {
             return null;
         }
         return map[row][col];
