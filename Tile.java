@@ -20,6 +20,8 @@ public class Tile {
     public void render(Graphics g) {
         if (tileID == TileID.CLAIM) {
             g.setColor(TileID.claimColor);
+        } else if (tileID == TileID.DEADPATH) {
+            g.setColor(TileID.claimColor.darker());
         } else {
             g.setColor(tileID.getColor());
         }

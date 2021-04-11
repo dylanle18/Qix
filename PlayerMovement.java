@@ -72,6 +72,21 @@ public class PlayerMovement extends Movement {
                     pushedTile.setHasPush(false);
                 }
                 this.pushingPath = new LinkedList<Tile>();
+
+                // very hacky lol
+                for (int i = 0; i < Game.GRIDSIZE; i++) {
+                    for (int j = 0; j < Game.GRIDSIZE; j++) {
+                        Tile t = Grid.map[i][j];
+                        if (isPath(t)) {
+                            t.setTileID(TileID.DEADPATH);
+                        }
+                    }
+                }
+                PathNode node = mainPath.getStart();
+                do {
+                    node.tile.setTileID(TileID.PATH);
+                    node = node.next;
+                } while (node != mainPath.getStart());
             }
         }
 
