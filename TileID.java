@@ -6,7 +6,8 @@ public enum TileID {
     EMPTY(Color.darkGray),
     PATH(Color.white),
     PUSH(Color.gray),
-    CLAIM(getRandColor());
+    CLAIM(null),
+    DEADPATH(null);
 
     private Color color;
     public static Color claimColor = getRandColor();
