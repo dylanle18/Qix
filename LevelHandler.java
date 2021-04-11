@@ -50,7 +50,7 @@ public class LevelHandler {
     for (int i = 0; i < sparxNumber; ++i) {
       Tile randomTile = Grid.getRandomEdgeTile();
       Sparx sparx = new Sparx(ID.SPARX, randomTile, clockwise);
-      int newSpeed = sparxSpeed + randInt.nextInt(sparxNumber)/2 - randInt.nextInt(sparxNumber)/2;
+      int newSpeed = sparxSpeed + randInt.nextInt(sparxNumber) / 2 - randInt.nextInt(sparxNumber) / 2;
       if (newSpeed <= 0) {
         newSpeed = 1;
       }
@@ -80,6 +80,12 @@ public class LevelHandler {
     movementHandler.tick();
     tileHandler.tick();
     this.player.tick();
+
+    if (player.getTile().getTileID() == TileID.DEADPATH) {
+      
+      player.setTile(mainPath.getStart().tile);
+      this.loseLife(this.player, this.hud);
+    }
 
     // HitSparx
     if (playerState == PlayerState.NOT_IMMUNE && this.player.tile.getHasSparx()) {
