@@ -161,6 +161,9 @@ public class PlayerMovement extends Movement {
             t4 = Grid.getTile(nextR - 1, nextC);
             t5 = Grid.getTile(nextR + 1, nextC);
 
+            if (t1 == null || t2 == null || t3 == null || t4 == null || t5 == null) {
+                return true;
+            }
             if (isPush(t1) || isPush(t2) || isPush(t3) || isPush(t4) || isPush(t5)) {
                 return true;
             }
