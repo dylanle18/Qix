@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -75,6 +76,16 @@ public class LevelHandler {
 
   private LinkedList<Tile> tilesToRemove;
 
+  private ArrayList<Tile> mainPathTiles(){
+    ArrayList<Tile> tiles = new ArrayList<Tile>();
+    PathNode node = mainPath.getStart();
+    do {
+        tiles.add(node.tile);
+        node = node.next;
+    } while (node != mainPath.getStart());
+    return tiles;
+  }
+
   public void tick() {
     objectHandler.tick();
     movementHandler.tick();
@@ -82,8 +93,7 @@ public class LevelHandler {
     this.player.tick();
 
     if (player.getTile().getTileID() == TileID.DEADPATH) {
-      
-      player.setTile(mainPath.getStart().tile);
+      player.setTile(Grid.findNearestTile(player.getTile(), mainPathTiles()));
       this.loseLife(this.player, this.hud);
     }
 
