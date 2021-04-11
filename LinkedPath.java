@@ -119,10 +119,11 @@ public class LinkedPath {
         } else if (tile == this.end.tile) {
             return this.end;
         }
-        PathNode curretNode = this.start;
+
+        PathNode curretNode = this.start.next;
 
         if (forwardsSearch) {
-            for (int i = 0; i < this.size; ++i) {
+            while (curretNode != null && start.tile != curretNode.tile) {
                 if (curretNode.tile != tile && curretNode.next != null) {
                     curretNode = curretNode.next;
                 } else {
@@ -130,8 +131,7 @@ public class LinkedPath {
                 }
             }
         } else {
-
-            for (int i = 0; i < this.size; ++i) {
+            while (curretNode != null && start.tile != curretNode.tile) {
                 if (curretNode.tile != tile && curretNode.prev != null) {
                     curretNode = curretNode.prev;
                 } else {
@@ -139,7 +139,6 @@ public class LinkedPath {
                 }
             }
         }
-
         if (tile == this.end.tile) {
             return curretNode;
         } else {
