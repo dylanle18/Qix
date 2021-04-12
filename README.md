@@ -56,3 +56,9 @@ Once you've got all the requirements:
 -   [Kyle Choo Mang](https://github.com/KyleCM2)
 
 *   [Nabil Nael Yacoub Mansour](https://github.com/NabilNYMansour)
+
+---
+
+### UML Class Diagrams
+
+![UML Class Diagrams](img/UML%20Class%20Diagrams.pdf)
