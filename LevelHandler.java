@@ -74,7 +74,7 @@ public class LevelHandler {
     startImmuneTime = System.currentTimeMillis();
   }
 
-  private LinkedList<Tile> tilesToRemove;
+  public LinkedList<Tile> tilesToRemove;
 
   private ArrayList<Tile> mainPathTiles(){
     ArrayList<Tile> tiles = new ArrayList<Tile>();

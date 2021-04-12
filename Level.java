@@ -60,8 +60,8 @@ public class Level {
 
         this.grid = new Grid(5, 5, Game.TILESIZE, Game.GRIDSIZE, Game.GRIDSIZE);
         this.player = new Player(ID.PLAYER, Grid.getTile(Game.GRIDSIZE - 1, Game.GRIDSIZE / 2));
-        this.levelHandler = new LevelHandler(player, this.levelHandler.hud.getLives(), this.currentWinPercent, this.currentLevel,
-                this.sparxNumber, this.sparxSpeed, this.qixSpeed);
+        this.levelHandler = new LevelHandler(player, this.levelHandler.hud.getLives(), this.currentWinPercent,
+                this.currentLevel, this.sparxNumber, this.sparxSpeed, this.qixSpeed);
         this.playerInput = new PlayerInput(player);
         this.game.addKeyListener(this.playerInput);
     }
@@ -97,7 +97,9 @@ public class Level {
     public void tick() {
         if (screenState == SCREEN_STATE.PLAYING) {
             levelHandler.tick();
-            playerInput.tick();
+            if (this.levelHandler.tilesToRemove.isEmpty()) {
+                playerInput.tick();
+            }
         } else if (screenState == SCREEN_STATE.NEXT_LEVEL) {
             this.nextLevel();
             screenState = SCREEN_STATE.PLAYING;
@@ -129,11 +131,11 @@ public class Level {
         g.setColor(TileID.claimColor.brighter());
         g2d.fill(nextLevelButton);
 
-        g.setColor(TileID.claimColor.darker());
         g.setFont(new Font("SansSerif", Font.BOLD, 50));
         g.drawString("Level: " + String.valueOf(this.currentLevel) + " Complete!", (int) (Game.GRIDSIZE / 5) * 10,
                 ((int) (Game.GRIDSIZE / 2) * 10) + 25);
 
+        g.setColor(TileID.claimColor.darker());
         g.setFont(new Font("SansSerif", Font.BOLD, 36));
         g.drawString("Next Level", ((int) (Game.GRIDSIZE / 3) * 10) + 45, ((int) (Game.GRIDSIZE / 2) * 10) + 85);
     }
