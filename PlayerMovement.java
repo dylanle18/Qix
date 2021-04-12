@@ -36,6 +36,10 @@ public class PlayerMovement extends Movement {
     public Tile startingPushTile = null;
     public LinkedList<Tile> pushingPath;
 
+    public Tile getNextTile() {
+        return Grid.getTile(this.player.getTile().getRow() + player.getVelY(), this.player.getTile().getCol() + player.getVelX());
+    }
+
     public void move() {
         Tile tile = player.getTile();
         int newRow = tile.getRow() + player.getVelY();
