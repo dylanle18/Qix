@@ -10,7 +10,7 @@ public class PlayerInput extends KeyAdapter {
         this.player = player;
     }
 
-    public void tick(){
+    public void tick() {
         if (!up && !down) {
             player.setVelY(0);
         }
@@ -41,36 +41,36 @@ public class PlayerInput extends KeyAdapter {
             player.push = true;
         }
 
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
             up = true;
         }
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
             down = true;
         }
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
             left = true;
         }
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
             right = true;
         }
     }
-    
+
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             player.push = false;
         }
 
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
             up = false;
         }
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
             down = false;
         }
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
             left = false;
         }
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
             right = false;
         }
     }
