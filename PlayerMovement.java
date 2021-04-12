@@ -33,7 +33,7 @@ public class PlayerMovement extends Movement {
     }
 
     public boolean startedPushing;
-    public Tile startingPushTile;
+    public Tile startingPushTile = null;
     public LinkedList<Tile> pushingPath;
 
     public void move() {
@@ -46,9 +46,12 @@ public class PlayerMovement extends Movement {
 
             // if the player is moving to a new path tile
             if (isPath(newTile)) {
-                player.setTile(newTile);
+                if ((startingPushTile == null) || (startingPushTile != newTile))
+                    player.setTile(newTile);
                 // if the player is pressing space or currently pushing
-            } else if (pressingPush() && !isClaim(newTile) && !isDeadPush(newTile) || pushing() && !isClaim(newTile) && !isDeadPush(newTile)) {
+            } else if (pressingPush() && !isClaim(newTile) && !isDeadPush(newTile)
+
+                    || pushing() && !isClaim(newTile) && !isDeadPush(newTile)) {
                 if (!startedPushing) {
                     startedPushing = true;
                     startingPushTile = this.player.getTile();
@@ -64,7 +67,7 @@ public class PlayerMovement extends Movement {
                 }
             }
 
-            if (!isPath(tile) && isPath(newTile)) {
+            if (!isPath(tile) && isPath(newTile) && newTile != startingPushTile) {
                 tileHandler.scan();
                 mainPath.updatePath();
                 startedPushing = false;
@@ -88,6 +91,8 @@ public class PlayerMovement extends Movement {
                     node.tile.setTileID(TileID.PATH);
                     node = node.next;
                 } while (node != mainPath.getStart());
+
+                this.startingPushTile = null;
             }
         }
 
