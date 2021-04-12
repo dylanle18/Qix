@@ -61,4 +61,4 @@ Once you've got all the requirements:
 
 ### UML Class Diagrams
 
-![UML Class Diagrams](img/UML%20Class%20Diagrams.pdf)
+[![UML Class Diagrams](img/UML%20Class%20Diagrams.svg)](img/UML%20Class%20Diagrams.pdf)
