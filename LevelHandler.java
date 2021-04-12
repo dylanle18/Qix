@@ -72,6 +72,7 @@ public class LevelHandler {
     hud.setLives(newLives);
     playerState = PlayerState.IMMUNE;
     startImmuneTime = System.currentTimeMillis();
+    this.playerMovement.startingPushTile = null;
   }
 
   public LinkedList<Tile> tilesToRemove;

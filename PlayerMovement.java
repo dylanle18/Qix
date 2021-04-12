@@ -91,6 +91,8 @@ public class PlayerMovement extends Movement {
                     node.tile.setTileID(TileID.PATH);
                     node = node.next;
                 } while (node != mainPath.getStart());
+
+                this.startingPushTile = null;
             }
         }
 
