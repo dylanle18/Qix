@@ -64,7 +64,7 @@ public class PlayerMovement extends Movement {
                 }
 
                 // makes sure the player cant walk backwards or go beside an existing push
-                if (!isPush(newTile) && !adjacentPush(tile, newTile)) {
+                if (!isPush(newTile)) {
                     player.setTile(newTile);
                     newTile.setHasPush(true);
                     this.pushingPath.add(newTile);

@@ -56,6 +56,9 @@ public class PlayerInput extends KeyAdapter {
         if (key == KeyEvent.VK_SPACE && Level.screenState == Level.SCREEN_STATE.COMPLETE) {
             Level.screenState = Level.SCREEN_STATE.NEXT_LEVEL;
         }
+        if (key == KeyEvent.VK_SPACE && Level.screenState == Level.SCREEN_STATE.LOSE) {
+            Level.screenState = Level.SCREEN_STATE.RESET_FST_LEVEL;
+        }
     }
 
     public void keyReleased(KeyEvent e) {
