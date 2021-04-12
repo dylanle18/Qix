@@ -76,6 +76,7 @@ public class LevelHandler {
   }
 
   public LinkedList<Tile> tilesToRemove;
+  private Tile preVPlayerTile = null;
 
   private ArrayList<Tile> mainPathTiles() {
     ArrayList<Tile> tiles = new ArrayList<Tile>();
@@ -98,8 +99,10 @@ public class LevelHandler {
       this.loseLife(this.hud);
     }
 
-    // Qix hit push path
-    if (this.qix.getTile().getHasPush() && playerMovement.startedPushing) {
+    // Qix hit push path || Player has stopped
+    if ((this.qix.getTile().getHasPush() && playerMovement.startedPushing)
+        || ((this.player.notMoving() || this.playerMovement.pushingPath.indexOf(this.playerMovement.getNextTile()) != -1)
+            && this.playerMovement.startedPushing)) {
       player.setTile(playerMovement.startingPushTile);
       playerMovement.startedPushing = false;
 

@@ -40,4 +40,8 @@ public class Player extends GameObject {
     public void setVelY(int velY) {
         this.velY = velY;
     }
+
+    public boolean notMoving() { // Checks if player is not moving
+        return this.velX == 0 && this.velY == 0;
+    }
 }

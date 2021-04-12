@@ -36,6 +36,10 @@ public class PlayerMovement extends Movement {
     public Tile startingPushTile = null;
     public LinkedList<Tile> pushingPath;
 
+    public Tile getNextTile() {
+        return Grid.getTile(this.player.getTile().getRow() + player.getVelY(), this.player.getTile().getCol() + player.getVelX());
+    }
+
     public void move() {
         Tile tile = player.getTile();
         int newRow = tile.getRow() + player.getVelY();
@@ -60,7 +64,7 @@ public class PlayerMovement extends Movement {
                 }
 
                 // makes sure the player cant walk backwards or go beside an existing push
-                if (!isPush(newTile) && !adjacentPush(tile, newTile)) {
+                if (!isPush(newTile)) {
                     player.setTile(newTile);
                     newTile.setHasPush(true);
                     this.pushingPath.add(newTile);
