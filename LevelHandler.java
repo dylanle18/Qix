@@ -66,7 +66,7 @@ public class LevelHandler {
 
   private long startImmuneTime = 0;
 
-  private void loseLife(Player player, HUD hud) {
+  private void loseLife(HUD hud) {
     int newLives = hud.getLives();
     --newLives;
     hud.setLives(newLives);
@@ -76,30 +76,25 @@ public class LevelHandler {
 
   public LinkedList<Tile> tilesToRemove;
 
-  private ArrayList<Tile> mainPathTiles(){
+  private ArrayList<Tile> mainPathTiles() {
     ArrayList<Tile> tiles = new ArrayList<Tile>();
     PathNode node = mainPath.getStart();
     do {
-        tiles.add(node.tile);
-        node = node.next;
+      tiles.add(node.tile);
+      node = node.next;
     } while (node != mainPath.getStart());
     return tiles;
   }
 
   public void tick() {
-    objectHandler.tick();
-    movementHandler.tick();
-    tileHandler.tick();
-    this.player.tick();
-
     if (player.getTile().getTileID() == TileID.DEADPATH) {
       player.setTile(Grid.findNearestTile(player.getTile(), mainPathTiles()));
-      this.loseLife(this.player, this.hud);
+      this.loseLife(this.hud);
     }
 
     // HitSparx
     if (playerState == PlayerState.NOT_IMMUNE && this.player.tile.getHasSparx()) {
-      this.loseLife(this.player, this.hud);
+      this.loseLife(this.hud);
     }
 
     // Qix hit push path
@@ -109,11 +104,12 @@ public class LevelHandler {
 
       for (Tile pushedTile : this.playerMovement.pushingPath) {
         pushedTile.setHasPush(false);
+        pushedTile.setTileID(TileID.DEADPATH);
         this.tilesToRemove.add(pushedTile);
       }
 
       this.playerMovement.pushingPath = new LinkedList<Tile>();
-      this.loseLife(this.player, this.hud);
+      this.loseLife(this.hud);
     }
 
     if (playerState == PlayerState.IMMUNE) {
@@ -125,6 +121,11 @@ public class LevelHandler {
     if (!this.tilesToRemove.isEmpty()) { // Remove pushed tiles animation
       Tile toRemove = this.tilesToRemove.removeLast();
       toRemove.setTileID(TileID.EMPTY);
+    } else {
+      objectHandler.tick();
+      movementHandler.tick();
+      tileHandler.tick();
+      this.player.tick();
     }
   }
 

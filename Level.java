@@ -97,9 +97,9 @@ public class Level {
     public void tick() {
         if (screenState == SCREEN_STATE.PLAYING) {
             levelHandler.tick();
-            if (this.levelHandler.tilesToRemove.isEmpty()) {
+            // if (this.levelHandler.tilesToRemove.isEmpty()) {
                 playerInput.tick();
-            }
+            // }
         } else if (screenState == SCREEN_STATE.NEXT_LEVEL) {
             this.nextLevel();
             screenState = SCREEN_STATE.PLAYING;
