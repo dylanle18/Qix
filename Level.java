@@ -57,10 +57,12 @@ public class Level {
         if (this.currentWinPercent < 85) {
             this.currentWinPercent += 5;
         }
+        this.currentLives = this.levelHandler.hud.getLives();
+        ++this.currentLives;
 
         this.grid = new Grid(5, 5, Game.TILESIZE, Game.GRIDSIZE, Game.GRIDSIZE);
         this.player = new Player(ID.PLAYER, Grid.getTile(Game.GRIDSIZE - 1, Game.GRIDSIZE / 2));
-        this.levelHandler = new LevelHandler(player, this.levelHandler.hud.getLives(), this.currentWinPercent,
+        this.levelHandler = new LevelHandler(player, this.currentLives, this.currentWinPercent,
                 this.currentLevel, this.sparxNumber, this.sparxSpeed, this.qixSpeed);
         this.playerInput = new PlayerInput(player);
         this.game.addKeyListener(this.playerInput);
