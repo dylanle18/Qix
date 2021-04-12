@@ -17,19 +17,19 @@ public class PlayerInput extends KeyAdapter {
         if (!left && !right) {
             player.setVelX(0);
         }
-        if (up && !down) {
+        if (up && !down && !right && !left) {
             player.setVelY(-1);
             player.setVelX(0);
         }
-        if (down && !up) {
+        if (down && !up && !right && !left) {
             player.setVelY(1);
             player.setVelX(0);
         }
-        if (left && !right) {
+        if (left && !right && !up && !down) {
             player.setVelX(-1);
             player.setVelY(0);
         }
-        if (right && !left) {
+        if (right && !left && !up && !down) {
             player.setVelX(1);
             player.setVelY(0);
         }
