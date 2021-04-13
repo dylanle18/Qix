@@ -26,6 +26,12 @@
 
 ---
 
+### Demo
+
+![Demo Shot 3](/img/demo3.gif)
+
+---
+
 ### Want to try it yourself?
 
 #### Requirements
@@ -35,7 +41,7 @@
 
 #### Setup
 
-Once you've got all the requirements:
+##### Once you've got all the requirements:
 
 1. ##### Clone this repository
 1. ##### Run the _"Qix.exe"_ or _"Qix.jar"_
